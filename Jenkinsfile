@@ -1,5 +1,6 @@
 def imageName = 'mlabouardy/movies-loader'
-def registry = 'https://hub.docker.com/repositories/am22d35n'
+def registry = 'https://registry-1.docker.io/'
+
 
 node('workers'){
     stage('Checkout'){
