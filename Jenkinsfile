@@ -32,14 +32,16 @@ pipeline{
             }
         }
 
-        stage('Push'){
-            steps{
-                docker.withRegistry(registry, 'registry') {
-                        docker.image(imageName).push(commitID())
+        stage('Push') {
+        steps {
+            script { // Ajoutez ce bloc script
+                docker.withRegistry(registry, 'registryCredentials') {
+                    def builtImage = docker.image(imageName)
+                    builtImage.push(commitID())
 
-                        if (env.BRANCH_NAME == 'develop') {
-                            docker.image(imageName).push('develop')
-                        }
+                    if (env.BRANCH_NAME == 'develop') {
+                        builtImage.push('develop')
+                    }
                 }
             }
         }
