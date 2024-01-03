@@ -1,4 +1,4 @@
-def imageName = 'mlabouardy/movies-loader'
+def imageName = 'am22d35n'
 def registry = 'https://registry-1.docker.io/'
 
 
