@@ -1,38 +1,22 @@
 def imageName = 'mlabouardy/movies-loader'
 def registry = 'https://hub.docker.com/repositories/am22d35n'
 
-pipeline{
-    agent{
-        label 'workers'
+node('workers'){
+    stage('Checkout'){
+        checkout scm
     }
 
-    stages{
-        stage('Checkout'){
-            steps{
-                checkout scm
-            }
-        }
+    stage('Unit Tests'){
+        def imageTest= docker.build("${imageName}-test", "-f Dockerfile.test .")
+        sh "docker run --rm -v $PWD/reports:/app/reports ${imageName}-test"
+        junit "$PWD/reports/*.xml"
+    }
 
-        stage('Unit Tests'){
-            steps{
-                script {
-                    def imageTest= docker.build("${imageName}-test", "-f Dockerfile.test .")
-                    imageTest.inside{
-                        sh "python test_main.py"
-                    }
-                }
-            }
-        }
+    stage('Build'){
+        docker.build(imageName)
+    }
 
-        stage('Build'){
-            steps{
-                script {
-                    docker.build(imageName)
-                }
-            }
-        }
-
-        stage('Push') {
+stage('Push') {
         steps {
             script { // Ajoutez ce bloc script
                 docker.withRegistry(registry, 'registryCredentials') {
@@ -47,6 +31,7 @@ pipeline{
         }
     }
 }
+
 
 def commitID() {
     sh 'git rev-parse HEAD > .git/commitID'
