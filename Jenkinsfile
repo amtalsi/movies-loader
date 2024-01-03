@@ -1,4 +1,4 @@
-def imageName = 'am22d35n'
+def imageName = 'am22d35n/repoabdel'
 def registry = 'https://registry-1.docker.io/'
 
 
