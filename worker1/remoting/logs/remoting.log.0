@@ -1,0 +1,10 @@
+janv. 02, 2024 4:08:25 PM hudson.remoting.jnlp.Main createEngine
+INFOS: Setting up agent: worker1
+janv. 02, 2024 4:08:25 PM hudson.remoting.Engine startEngine
+INFOS: Using Remoting version: 3107.v665000b_51092
+janv. 02, 2024 4:08:25 PM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFOS: Using /home/consilium/pipeline-jenkins/pipeline-as-code-with-jenkins/movies/movies-loader/worker1/remoting as a remoting work directory
+janv. 02, 2024 4:08:25 PM hudson.remoting.jnlp.Main$CuiListener status
+INFOS: WebSocket connection open
+janv. 02, 2024 4:08:25 PM hudson.remoting.jnlp.Main$CuiListener status
+INFOS: Connected
