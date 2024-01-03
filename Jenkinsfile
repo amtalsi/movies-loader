@@ -16,7 +16,6 @@ node('workers'){
     }
 
 stage('Push') {
-        steps {
             script { // Ajoutez ce bloc script
                 docker.withRegistry(registry, 'registryCredentials') {
                     def builtImage = docker.image(imageName)
@@ -27,7 +26,6 @@ stage('Push') {
                     }
                 }
             }
-        }
     }
 }
 
