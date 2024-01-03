@@ -1,5 +1,5 @@
 def imageName = 'mlabouardy/movies-loader'
-def registry = 'https://registry.slowcoder.com'
+def registry = 'https://hub.docker.com/repositories/am22d35n'
 
 pipeline{
     agent{
