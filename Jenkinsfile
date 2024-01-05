@@ -1,5 +1,5 @@
-def imageName = 'mlabouardy/movies-loader'
-def registry = 'https://hub.docker.com/r/am22d35n/repoabdel'
+def imageName = 'am22d35n/repoabdel'
+def registry = 'https://registry-1.docker.io/'
 
 pipeline{
     agent{
