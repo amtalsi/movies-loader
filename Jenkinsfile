@@ -1,50 +1,35 @@
 def imageName = 'am22d35n/repoabdel'
 def registry = 'https://registry-1.docker.io/'
 
-pipeline{
-    agent{
-        label 'workers'
+
+node('workers'){
+    stage('Checkout'){
+        checkout scm
     }
 
-    stages{
-        stage('Checkout'){
-            steps{
-                checkout scm
-            }
-        }
+    stage('Unit Tests'){
+        def imageTest= docker.build("${imageName}-test", "-f Dockerfile.test .")
+        sh "docker run --rm -v $PWD/reports:/app/reports ${imageName}-test"
+    }
 
-        stage('Unit Tests'){
-            steps{
-                script {
-                    def imageTest= docker.build("${imageName}-test", "-f Dockerfile.test .")
-                    imageTest.inside{
-                        sh "python test_main.py"
+    stage('Build'){
+        docker.build(imageName)
+    }
+
+stage('Push') {
+            script { // Ajoutez ce bloc script
+                docker.withRegistry(registry, 'registryCredentials') {
+                    def builtImage = docker.image(imageName)
+                    builtImage.push(commitID())
+
+                    if (env.BRANCH_NAME == 'develop') {
+                        builtImage.push('develop')
                     }
                 }
             }
-        }
-
-        stage('Build'){
-            steps{
-                script {
-                    docker.build(imageName)
-                }
-            }
-        }
-
-        stage('Push'){
-            steps{
-                docker.withRegistry(registry, 'registry') {
-                        docker.image(imageName).push(commitID())
-
-                        if (env.BRANCH_NAME == 'develop') {
-                            docker.image(imageName).push('develop')
-                        }
-                }
-            }
-        }
     }
 }
+
 
 def commitID() {
     sh 'git rev-parse HEAD > .git/commitID'
